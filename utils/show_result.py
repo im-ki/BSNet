@@ -56,18 +56,44 @@ def plot_pred_map(pred, mapping, save=False):
         pred, mapping: (2, h, w)
         save: True or False
     """
-    x_pred = pred[0].reshape((-1, 1))
-    y_pred = pred[1].reshape((-1, 1))
-    x_true = mapping[0].reshape((-1, 1))
-    y_true = mapping[1].reshape((-1, 1))
+    #x_pred = pred[0].reshape((-1, 1))
+    #y_pred = pred[1].reshape((-1, 1))
+    #x_true = mapping[0].reshape((-1, 1))
+    #y_true = mapping[1].reshape((-1, 1))
+
+    #fig = plt.figure()
+    #fig.add_subplot(1, 2, 1)
+    #plt.plot(x_pred, y_pred, 'r.', markersize=1)
+    #plt.title('Network output')
+    #fig.add_subplot(1, 2, 2)
+    #plt.plot(x_true, y_true, 'r.', markersize=1)
+    #plt.title('Target image')
+
+    h, w = pred.shape[1], pred.shape[2]
+
+    x_pred = pred[0]
+    y_pred = pred[1]
+    x_true = mapping[0]
+    y_true = mapping[1]
 
     fig = plt.figure()
+
     fig.add_subplot(1, 2, 1)
-    plt.plot(x_pred, y_pred, 'r.', markersize=1)
+    for i in range(0, h, 2):
+        plt.plot(x_pred[i, :].reshape(-1), y_pred[i, :].reshape(-1), 'b-', linewidth=0.5)
+    for i in range(0, w, 2):
+        plt.plot(x_pred[:, i].reshape(-1), y_pred[:, i].reshape(-1), 'b-', linewidth=0.5)
+    plt.axis('off')
     plt.title('Network output')
+
     fig.add_subplot(1, 2, 2)
-    plt.plot(x_true, y_true, 'r.', markersize=1)
+    for i in range(0, h, 2):
+        plt.plot(x_true[i, :].reshape(-1), y_true[i, :].reshape(-1), 'b-', linewidth=0.5)
+    for i in range(0, w, 2):
+        plt.plot(x_true[:, i].reshape(-1), y_true[:, i].reshape(-1), 'b-', linewidth=0.5)
+    plt.axis('off')
     plt.title('Target image')
+
     if save:
         if not os.path.exists('save_plot'):
             os.mkdir('save_plot')
